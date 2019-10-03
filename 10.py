@@ -9,7 +9,7 @@ class Solution:
         
         if p[0] in string.ascii_lowercase: # we are matching a letter not . or *
             if len(p) > 1 and p[1] == '*': # a*
-                if p[0] != s[0]: # matched 0 chars from string
+                if len(s) == 0 or p[0] != s[0]: # matched 0 chars from string
                     return self.isMatch(s, p[2:]) # drop wildcard a* from p and move on
                 else: # a* matched 1+ a's
                     while len(s) > 0 and s[0] == p[0]:
@@ -17,7 +17,7 @@ class Solution:
                             return True
                         s = s[1:] # drop all identical characters
                         if len(s) == 0:
-                            return True
+                            return self.isMatch(s, p[2:])
                     if self.isMatch(s, p[2:]): # check one more time with all a's removed from 
                         return True
                     return False
@@ -34,8 +34,10 @@ class Solution:
                         if self.isMatch(s, p[2:]):
                             return True
                         s = s[1:] # drop all characters
-                    return True
+                    return self.isMatch(s, p[2:])
             else:
+                if len(s) == 0:
+                    return False
                 return self.isMatch(s[1:], p[1:])
             
         elif p[0] == '*':
@@ -56,3 +58,10 @@ print(6, solution.isMatch('aa', '.a') == True)
 print(7, solution.isMatch('aa', 'a*') == True)
 print(8, solution.isMatch('aab', 'c*a*b') == True)
 print(9, solution.isMatch('mississippi', 'mis*is*p*.') == False)
+print(10, solution.isMatch('aa', '') == False)
+print(11, solution.isMatch('aaaaa', 'a..*a') == True)
+# failed test cases
+print(12, solution.isMatch('ab', '.*c') == False)
+print(13, solution.isMatch('a', 'ab*') == True)
+print(14, solution.isMatch('a', ".*..a*") == False)
+print(15, solution.isMatch("acaabbaccbbacaabbbb", "a*.*b*.*a*aa*a*") == False)
