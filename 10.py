@@ -2,7 +2,7 @@ from typing import List
 import string
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
-        if len(s) == 0:
+        if len(s) == 0 and len(p) == 0:
             return True
         if len(p) == 0:
             return False
@@ -11,8 +11,7 @@ class Solution:
                 if p[0] != s[0]:
                     return self.isMatch(s, p[2:])
                 else: # a* a...
-                    #ccccccgcdkbhglfnteccbtgrcigterdutfchgciukfkc
-                    #ccccccgcdkbhjnlfrbrntbhbfiuvtvhercjektnefcbj
+
 
 
             elif p[0] == s[0]:
@@ -35,3 +34,7 @@ class Solution:
 
 solution = Solution()
 print(solution.isMatch('', '.*') == True)
+print(solution.isMatch('aa', 'a') == False)
+print(solution.isMatch('aa', 'a*') == True)
+print(solution.isMatch('aab', 'c*a*b') == True)
+print(solution.isMatch('mississippi', 'mis*is*p*.') == True)
