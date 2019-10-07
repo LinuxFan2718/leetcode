@@ -11,7 +11,6 @@ class Solution:
         else:
           index += 1
           length += 1
-
       return length + 1
 
 
