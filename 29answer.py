@@ -17,12 +17,12 @@ class Solution:
       return min(max(-2147483648, res), 2147483647)
 
 s = Solution()
-# print(s.divide(10, 3) == 3)
+print(s.divide(13, 3))
 # print(s.divide(7, -3) == -2)
 # print(s.divide(4, 4) == 1)
 # print(s.divide(1, 1) == 1)
 
-a = s.divide(-2147483648, -1)
+# a = s.divide(-2147483648, -1)
 # print(a == 2147483647)
 # b = s.divide(-2147483648, 1)
 # print(b == -2147483648)
