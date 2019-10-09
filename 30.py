@@ -4,11 +4,20 @@ class Solution:
     def findSubstring(self, s: str, words: List[str]) -> List[int]:
       if len(s) == 0 or len(words) == 0:
         return []
-      substrings = list(map(lambda x: str.join('', x), permutations(words,len(words))))
-      substringLength = len(substrings[0])
+      wordLength = len(words[0])
+      substringLength = len(str.join('', words))
       startingIndices = []
       for i in range(0, len(s) - substringLength + 1):
-        if s[i:i+substringLength] in substrings:
+        wordsCopy = words.copy()
+        j = 0
+        while len(wordsCopy) > 0:
+          toCheck = s[i+j:i+j+wordLength]
+          if toCheck in wordsCopy:
+            wordsCopy.remove(toCheck)
+            j += wordLength
+          else:
+            break
+        if len(wordsCopy) == 0:
           startingIndices.append(i)
       return startingIndices
 
@@ -36,3 +45,4 @@ words = ["dhvf","sind","ffsl","yekr","zwzq","kpeo","cila","tfty","modg","ztjg","
 
 actualAnswer = solution.findSubstring(s, words)
 print(actualAnswer)
+pass
