@@ -1,25 +1,23 @@
 from typing import List
 class Solution:
-    def isValid(self, s: str) -> bool:
-      stack = []
-      for c in s:
-        if c == '(':
-          stack.append(c)
-        elif c == ')':
-          if len(stack) == 0:
-            return False
-          stackPop = stack.pop()
-          if c == ')':
-            if stackPop != '(':
-              return False
-      return len(stack) == 0
     def longestValidParentheses(self, s: str) -> int:
-        maxAnswer = len(s)
-        for candidateLength in range(maxAnswer, -1, -1):
-          for i in range(0, 1 + len(s) - candidateLength):
-            if self.isValid(s[i:i+candidateLength]):
-              return candidateLength
-        return 0
+      longest = 0
+      currentLength = 0
+      stack = []
+      for paren in enumerate(s):
+        if paren[1] == '(':
+          if paren[0] != 0 and s[paren[0] - 1] == '(':
+            stack.append(paren[0])
+          else:
+            stack.append(paren[0] - currentLength)
+        elif paren[1] == ')':
+          if len(stack) > 0: # not an unmatched )
+            currentLength = 1 + paren[0] - stack.pop()
+          else:
+            currentLength = 0 # unmatched ) resets current run
+        if currentLength > longest:
+          longest = currentLength
+      return longest
 
 
 
@@ -36,6 +34,11 @@ print(lvp, lvp == output)
 
 input = ")"
 output = 0
+lvp = s.longestValidParentheses(input)
+print(lvp, lvp == output)
+
+input = "()(()"
+output = 2
 lvp = s.longestValidParentheses(input)
 print(lvp, lvp == output)
 
