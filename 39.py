@@ -1,12 +1,18 @@
-from typing import List
+from typing import List, Dict
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        memo = []
-        return self.combinationSumHelper(candidates, target, memo)
+      # { ((candidates), target): solutionSet }
+      memo = {}
+      return self.combinationSumHelper(candidates, target, memo)
 
-    def combinationSumHelper(self, candidates: List[int], target: int, memo: List[tuple]) -> List[List[int]]:
-        return [1]
-
+    def combinationSumHelper(self, candidates: List[int], target: int, memo: Dict) -> List[List[int]]:
+      theseArgs = (tuple(candidates), target)
+      if theseArgs in memo.keys():
+        return memo[theseArgs]
+      for candidate in candidates:
+        if target - candidate == 0:
+          
+      return [1]
 
 s = Solution()
 candidates = [2,3,6,7]
