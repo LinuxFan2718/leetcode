@@ -1,10 +1,10 @@
 from typing import List
 class Solution:
-    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
       res = []
       candidates.sort()
       self.combinationSumHelper(candidates, target, [], 0, res)
-      return res
+      return [list(x) for x in set(tuple(x) for x in res)]
 
     def combinationSumHelper(self, candidates: List[int], target: int, partialSolution: List[int], index: int, res: List[List[int]]) -> None:
       if target < 0:
@@ -14,26 +14,25 @@ class Solution:
         return
       for i in range(index, len(candidates)):
         considering = candidates[i]
-        self.combinationSumHelper(candidates, target - considering, partialSolution + [considering], i, res)
-      
-      
+        self.combinationSumHelper(candidates, target - considering, partialSolution + [considering], i+1, res)
 
 s = Solution()
-candidates = [2,3,6,7]
-target = 7
-solution = [
-  [7],
-  [2,2,3]
-]
-computed = s.combinationSum(candidates, target)
-print(sorted(computed) == sorted(solution), computed)
-
-candidates = [2,3,5]
+candidates = [10,1,2,7,6,1,5]
 target = 8
 solution = [
-  [2,2,2,2],
-  [2,3,3],
-  [3,5]
+  [1, 7],
+  [1, 2, 5],
+  [2, 6],
+  [1, 1, 6]
 ]
-computed = s.combinationSum(candidates, target)
-print(computed == solution, computed)
+computed = s.combinationSum2(candidates, target)
+print(sorted(computed) == sorted(solution), computed)
+
+candidates = [2,5,2,1,2]
+target = 5
+solution = [
+  [1,2,2],
+  [5]
+]
+computed = s.combinationSum2(candidates, target)
+print(sorted(computed) == sorted(solution), computed)
