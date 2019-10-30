@@ -7,12 +7,12 @@ class Solution:
       left = 0
       right = 1
       while right < len(height):
-        if right + 1 < len(height) and height[right] > height[right + 1]:
+        if (right + 1 < len(height) and height[right - 1] < height[right] and height[right] > height[right + 1]) or (right + 1 == len(height) and height[right - 1] < height[right]):
           # found a local max
           thisHeight = min(height[left], height[right])
           thisWidth = right - left - 1
           waterWithoutDisplacement = thisHeight * thisWidth
-          displacement = sum(height[left+1:right])
+          displacement = sum([min(x,thisHeight) for x in height[left+1:right]])
           totalWater += waterWithoutDisplacement - displacement
           left = right
           right += 1
@@ -22,5 +22,25 @@ class Solution:
 s = Solution()
 input = [0,1,0,2,1,0,1,3,2,1,2,1]
 output = 6
+computed = s.trap(input)
+print(computed, computed == output)
+
+input = [2,0,2]
+output = 2
+computed = s.trap(input)
+print(computed, computed == output)
+
+input = [2,1,0,2]
+output = 3
+computed = s.trap(input)
+print(computed, computed == output)
+
+input = [5,4,1,2]
+output = 1
+computed = s.trap(input)
+print(computed, computed == output)
+
+input = [5,2,1,2,1,5]
+output = 14
 computed = s.trap(input)
 print(computed, computed == output)
