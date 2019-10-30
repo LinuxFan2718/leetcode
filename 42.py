@@ -4,19 +4,17 @@ class Solution:
       totalWater = 0
       if len(height) < 2:
         return 0
-      left = 0
-      right = 1
-      while right < len(height):
-        if (right + 1 < len(height) and height[right - 1] < height[right] and height[right] > height[right + 1]) or (right + 1 == len(height) and height[right - 1] < height[right]):
-          # found a local max
-          thisHeight = min(height[left], height[right])
-          thisWidth = right - left - 1
-          waterWithoutDisplacement = thisHeight * thisWidth
-          displacement = sum([min(x,thisHeight) for x in height[left+1:right]])
-          totalWater += waterWithoutDisplacement - displacement
-          left = right
-          right += 1
-        right += 1
+
+      leftHighest = [height[0]] + (len(height)-1) * [None]
+      for i in range(1, len(height)):
+        leftHighest[i] = max(leftHighest[i-1], height[i])
+
+      rightHighest = (len(height) - 1) * [None] + [height[len(height) - 1]]
+      for i in range(len(height) - 2, -1, -1):
+        rightHighest[i] = max(rightHighest[i+1], height[i])
+
+      for i in range(len(height)):
+        totalWater += min(leftHighest[i], rightHighest[i]) - height[i]
       return totalWater
 
 s = Solution()
