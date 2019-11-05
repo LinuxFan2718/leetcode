@@ -1,29 +1,40 @@
 from typing import List
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
+      self.memo = {}
+      return self.helper(s, p)
+
+    def helper(self, s: str, p: str) -> bool:
+      memo = self.memo
+      if (s,p) in memo:
+        return memo[(s,p)]
       if len(p) == 0:
-        return len(s) == 0
-      if p[0] == "*":
+        memo[(s,p)] = len(s) == 0
+      elif len(p) - p.count('*') > len(s):
+        memo[(s,p)] = False
+      elif p[0] == "*":
         if len(s) > 0 and len(p) > 0 and p[-1] not in ['?', '*'] and s[-1] != p[-1]:
-          return False # ugly speed hack to check last chars match if both letters
-        j = 0
-        while j < len(p) and p[j] == "*":
-          j += 1
-        for i in range(len(s)+1):
-          if self.isMatch(s[i:], p[j:]):
-            return True
-        return False
+          memo[(s,p)] = False # ugly speed hack to check last chars match if both letters
+        else:
+          j = 0
+          while j < len(p) and p[j] == "*":
+            j += 1
+          for i in range(len(s)+1):
+            if self.helper(s[i:], p[j:]):
+              memo[(s, p)] = True
+          if (s,p) not in memo:
+            memo[(s,p)] = False
       elif p[0] == "?":
         if len(s) == 0:
-          return False     
+          memo[(s,p)] = False     
         else:
-          return self.isMatch(s[1:], p[1:])
+          memo[(s,p)] = self.helper(s[1:], p[1:])
       else: # p[0] is a letter
         if len(s) == 0 or p[0] != s[0]:
-          return False
+          memo[(s,p)] = False
         elif p[0] == s[0]:
-          return self.isMatch(s[1:], p[1:])
-      return True
+          memo[(s,p)] = self.helper(s[1:], p[1:])
+      return memo[(s,p)]
 
 s = Solution()
 examples = [
@@ -71,4 +82,4 @@ for example in examples:
   if computed == example['output']:
     print('pass')
   else:
-    print('fail', example['s'], example['p'])
+    print('fail', computed, example['s'], example['p'])
