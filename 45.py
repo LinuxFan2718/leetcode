@@ -1,22 +1,16 @@
 from typing import List
 class Solution:
-
     def jump(self, nums: List[int]) -> int:
       jumps = 0
       position = 0
-      while position < len(nums) - 1:
-        jumps += 1
-        maxJump = nums[position]
-        if position + maxJump >= len(nums) - 1:
-          position = len(nums) - 1
+      nums.reverse()
+      while position <= len(nums) - 1:
+        candidates = [(i,x) for i,x in enumerate(nums[position+1:], position + 1) if x >= i - position]
+        if len(candidates) == 0:
+          break
         else:
-          maxSoFar = 0
-          newPosition = None
-          for i in range(position+1, position+maxJump+1):
-            if nums[i] >= maxSoFar:
-              maxSoFar = nums[i]
-              newPosition = i
-          position = newPosition
+          jumps += 1
+          position, _ = candidates.pop()
       return jumps
 
 s = Solution()
@@ -32,5 +26,10 @@ print(computed == o, computed)
 
 i = [10,9,8,7,6,5,4,3,2,1,1,0]
 o = 2
+computed = s.jump(i)
+print(computed == o, computed)
+
+i = [1] * 25000
+o = None
 computed = s.jump(i)
 print(computed == o, computed)
