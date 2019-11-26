@@ -1,10 +1,10 @@
 from typing import List
 class Solution:
-    def solveNQueens(self, n: int) -> List[List[str]]:
-        ans = []
+    def totalNQueens(self, n: int) -> int:
+        self.ans = 0
         emptyBoard = ['.' * n] * n
-        self.helper(n, emptyBoard, ans)
-        return ans
+        self.helper(n, emptyBoard, self.ans)
+        return self.ans
 
     def validBoard(self, n: int, board: List[str]) -> bool:
       if any([row.count('Q') > 1 for row in board]): # rows
@@ -26,7 +26,7 @@ class Solution:
           return False
       return True
     
-    def helper(self, n: int, board: List[str], ans: List[List[str]]) -> None:
+    def helper(self, n: int, board: List[str], ans: int) -> None:
       # assume board is valid and unfinished
       firstEmptyRow = 0
       while 'Q' in board[firstEmptyRow]:
@@ -36,26 +36,17 @@ class Solution:
         board[firstEmptyRow] = '.' * column + 'Q' + '.' * (n - column - 1)
         if self.validBoard(n, board):
           if firstEmptyRow + 1 == n:
-            ans.append(board[:])
+            self.ans += 1
           else:
             self.helper(n, board, ans)
         board[firstEmptyRow] = '.' * n
           
-s.solveNQueens
+
 
 
 s = Solution()
 i = 4
-o = [
- [".Q..",  # Solution 1
-  "...Q",
-  "Q...",
-  "..Q."],
- ["..Q.",  # Solution 2
-  "Q...",
-  "...Q",
-  ".Q.."]
-]
-ans = s.solveNQueens(i)
-#print(ans == o, ans)
-pass
+o = 2
+ans = s.totalNQueens(i)
+print(ans == o, ans)
+print(s.totalNQueens(8))
