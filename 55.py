@@ -1,16 +1,11 @@
 from typing import List
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
-        currentIndex = 0
-        while True:
-          if currentIndex >= len(nums) - 1 or currentIndex + nums[currentIndex] >= len(nums) - 1:
-            return True
-          if nums[currentIndex] == 0:
-            return False
-          candidates = []
-          for i in range(currentIndex + 1, currentIndex + nums[currentIndex] + 1):
-            candidates.append(i + nums[i])
-          currentIndex = max(candidates)
+      leftmostGoodIndex = len(nums) - 1
+      for i in range(len(nums) - 2, -1, -1):
+        if i + nums[i] >= leftmostGoodIndex:
+          leftmostGoodIndex = i
+      return leftmostGoodIndex == 0
 
 s = Solution()
 i = [2,3,1,1,4]
