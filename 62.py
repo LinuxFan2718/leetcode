@@ -1,22 +1,18 @@
 from typing import List
-from math import factorial
-from functools import reduce
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
-        if 1 in (m, n):
-            return 1
-        r = min(m,n) - 1
-        n = max(m,n)
-        #  n! / r! / (n-r)!
-        # ans = len(list(combinations_with_replacement(range(large), small)))
-        # (n+r-1)! / r! / (n-1)!
-        numerator = set(range(1, n+r))
-        denominator1 = int(factorial(r))
-        denominator2 = set(range(1, n))
+        waysToEnd = []
+        for _ in range(m):
+            waysToEnd.append([None] * n)
+        for i in range(m):
+            waysToEnd[i][n-1] = 1
+        for j in range(n):
+            waysToEnd[m-1][j] = 1
+        for i in range(m-2, -1, -1):
+            for j in range(n-2, -1, -1):
+                waysToEnd[i][j] = waysToEnd[i+1][j] + waysToEnd[i][j+1]
 
-        multiplierNums = numerator - denominator2
-        product = int(reduce((lambda x,y: x*y), list(multiplierNums)))
-        return int(product / denominator1)
+        return waysToEnd[0][0]
 
 s = Solution()
 m = 3
