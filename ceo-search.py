@@ -1,4 +1,6 @@
 # google code jam for women
+# https://codingcompetitions.withgoogle.com/codejamio/round/000000000005102c
+
 class Solution:
     # employee_levels = [
     #   [num_employees, level],
