@@ -1,5 +1,6 @@
 # google code jam for women
 # https://codingcompetitions.withgoogle.com/codejamio/round/000000000005102c
+# https://code.google.com/codejam/contest/8384486/dashboard#s=p0
 
 class Solution:
     # employee_levels = [
