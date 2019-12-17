@@ -1,6 +1,12 @@
 from typing import List
 class Solution:
     def minDistance(self, word1: str, word2: str) -> int:
+        dp = {}
+        return self.minDistanceHelper(word1, word2, dp)
+
+    def minDistanceHelper(self, word1: str, word2: str, dp: dict) -> int:
+        if (word1, word2) in dp.keys():
+            return dp[(word1,word2)]
         if len(word1) == 0:
             return len(word2)
         if len(word2) == 0:
@@ -8,11 +14,12 @@ class Solution:
         lastCharDifferent = 0
         if word1[-1] != word2[-1]:
             lastCharDifferent += 1
-        return min(
-            self.minDistance(word1, word2[:-1]) + 1,
-            self.minDistance(word1[:-1], word2) + 1,
-            self.minDistance(word1[:-1], word2[:-1]) + lastCharDifferent
+        dp[(word1,word2)] = min(
+            self.minDistanceHelper(word1, word2[:-1], dp) + 1,
+            self.minDistanceHelper(word1[:-1], word2, dp) + 1,
+            self.minDistanceHelper(word1[:-1], word2[:-1], dp) + lastCharDifferent
             )
+        return dp[(word1,word2)]
 
 s = Solution()
 word1 = "horse"
