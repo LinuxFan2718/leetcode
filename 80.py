@@ -37,7 +37,45 @@
 # for (int i = 0; i < len; i++) {
 #     print(nums[i]);
 # }
-
+from typing import List
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
-        
+        if len(nums) == 0:
+            return 0
+        i = 1
+        numFound = 1
+        current = nums[0]
+        while i < len(nums):
+            if current == nums[i]:
+                numFound += 1
+            else:
+                numFound = 1
+                current = nums[i]
+
+            if numFound == 3:
+                while i < len(nums) and nums[i] == current:
+                    nums.pop(i)
+            else:
+                i += 1
+        return len(nums)
+
+s = Solution()
+nums = [1,1,1,2,2,3]
+o = 5
+ans = s.removeDuplicates(nums)
+print(ans == o, ans, nums)
+
+nums = [0,0,1,1,1,1,2,3,3]
+o = 7
+ans = s.removeDuplicates(nums)
+print(ans == o, ans, nums)
+
+nums = [1]
+o = 1
+ans = s.removeDuplicates(nums)
+print(ans == o, ans, nums)
+
+nums = [1,1,1,2,2,2,3,3]
+o = 6
+ans = s.removeDuplicates(nums)
+print(ans == o, ans, nums)
