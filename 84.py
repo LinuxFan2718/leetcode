@@ -1,44 +1,15 @@
 from typing import List
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
-        if 0 not in heights:
-          maxArea = self.largestRectangleAreaHelper(heights)
-        else:
-          maxArea = 0
-          while 0 in heights:
-            zeroIndex = heights.index(0)
-            thisList = heights[:zeroIndex]
-            area = self.largestRectangleAreaHelper(thisList)
-            if area > maxArea:
-              maxArea = area
-            heights = heights[zeroIndex+1:]
-          area = self.largestRectangleAreaHelper(heights)
-          if area > maxArea:
-            maxArea = area
-        return maxArea
-
-    def largestRectangleAreaHelper(self, heights: List[int]) -> int:
-        if not heights:
+        if len(heights) == 0:
           return 0
-        left = 0
-        right = len(heights) - 1
-        maxArea = 0
-        width = right - left + 1
-
-        while width > 1:
-          width = right - left + 1
-          height = min(heights[left:right + 1])
-          area = width * height
-          if area > maxArea:
-            maxArea = area
-          if heights[left] < heights[right]:
-            left += 1
-          else:
-            right -= 1
-        if max(heights[left], heights[right]) > maxArea:
-          maxArea = max(heights[left], heights[right])
-        return maxArea
-
+        elif len(heights) == 1:
+          return heights[0]
+        elif len(heights) == 2:
+          return max(min(heights) * 2, heights[0], heights[1])
+        pivot = heights.index(min(heights))
+        return max(min(heights) * len(heights), self.largestRectangleArea(heights[:pivot]), self.largestRectangleArea(heights[pivot+1:]))
+        
 s = Solution()
 i = [2,1,5,6,2,3]
 o = 10
