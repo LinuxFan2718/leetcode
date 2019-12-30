@@ -7,9 +7,12 @@ class ListNode:
 
 class Solution:
     def deleteDuplicates(self, head: ListNode) -> ListNode:
-      dummy = ListNode(-1)
-      dummy.next = head
-      return dummy.next
+      current = head
+      while current:
+        while current.next and current.val == current.next.val:
+          current.next = current.next.next # eliminate dpulicates, leave one
+        current = current.next
+      return head
 
 s = Solution()
 def compareLists(l1, l2):
