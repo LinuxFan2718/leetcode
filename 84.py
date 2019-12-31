@@ -1,15 +1,37 @@
 from typing import List
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
-        if len(heights) == 0:
-          return 0
-        elif len(heights) == 1:
-          return heights[0]
-        elif len(heights) == 2:
-          return max(min(heights) * 2, heights[0], heights[1])
-        pivot = heights.index(min(heights))
-        return max(min(heights) * len(heights), self.largestRectangleArea(heights[:pivot]), self.largestRectangleArea(heights[pivot+1:]))
-        
+      stack = [] # smaller heights than current index
+      maxArea = 0
+      i = 0
+      while i < len(heights):
+        if len(stack) == 0 or heights[stack[-1]] <= heights[i]:
+          stack.append(i)
+          i += 1
+        else: # heights[i] is smaller than top of stack
+          heightIndex = stack.pop()
+          if len(stack) == 0: # rectangle from left edge to current index with height top of stack
+            leftIndex = 0
+          elif len(stack) > 0: # rectangle from left second element from top of stack to top of stack
+            leftIndex = stack[-1] + 1
+          width = i - leftIndex
+          height = heights[heightIndex]
+          area = width * height
+          if area > maxArea:
+            maxArea = area
+      while stack: # check rectangles where right edge is end of histogram
+        heightIndex = stack.pop()
+        if len(stack) == 0:
+          leftIndex = 0
+        elif len(stack) > 0:
+          leftIndex = stack[-1] + 1
+        width = len(heights) - leftIndex
+        height = heights[heightIndex]
+        area = width * height
+        if area > maxArea:
+          maxArea = area        
+      return maxArea
+
 s = Solution()
 i = [2,1,5,6,2,3]
 o = 10
@@ -38,5 +60,15 @@ print(o == ans, ans)
 
 i = [5,5,1,7,1,1,5,2,7,6]
 o = 12
+ans = s.largestRectangleArea(i)
+print(o == ans, ans)
+
+i = [50,0,5,1,7,1,1,5,2,7,6]
+o = 50
+ans = s.largestRectangleArea(i)
+print(o == ans, ans)
+
+i = [0,50,0,5,1,7,1,1,5,2,7,6]
+o = 50
 ans = s.largestRectangleArea(i)
 print(o == ans, ans)
