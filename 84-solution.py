@@ -4,6 +4,7 @@ class Solution:
         stack = []
         stack.append(-1)
         maxarea = 0
+        # stack is the left bar, i is the right bar
         for i in range(len(heights)):
             while (stack[-1] != -1 and heights[stack[-1]] >= heights[i]):
                 maxarea = max(maxarea, heights[stack.pop()] * (i - stack[-1] - 1))
