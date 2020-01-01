@@ -6,7 +6,26 @@ class ListNode:
 
 class Solution:
     def partition(self, head: ListNode, x: int) -> ListNode:
-        return head
+        dummyLessThan = ListNode(-1)
+        dummyGreaterThanOrEqualTo = ListNode(-1)
+        lessThanCurrent = dummyLessThan
+        greaterThanCurrent = dummyGreaterThanOrEqualTo
+        current = head
+        while current:
+          print(current.val)
+          if current.val < x:
+            lessThanCurrent.next = ListNode(current.val)
+            lessThanCurrent = lessThanCurrent.next
+          else:
+            greaterThanCurrent.next = ListNode(current.val)
+            greaterThanCurrent = greaterThanCurrent.next
+          current = current.next
+
+        lessThanCurrent.next = dummyGreaterThanOrEqualTo.next
+        if dummyLessThan.next:
+          return dummyLessThan.next
+        else:
+          return dummyGreaterThanOrEqualTo.next
 
 def compareLists(l1, l2):
   while True:
