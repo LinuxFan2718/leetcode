@@ -1,34 +1,17 @@
 from typing import List
 class Solution:
-    def numDecodings(self, s: str) -> int:
-        ans = 1 if any(x in s for x in '123456789') else 0
-        i = 0
-        while i < len(s):
-          if s[i] == "0":
-            i += 1
-          elif s[i] == "1" and i+1 < len(s):
-            if s[i+1] == "0":
-              i += 2
-            elif s[i+1] in "12":
-              ans += 1
-              i += 1
-            elif s[i+1] in "3456789":
-              ans += 2
-              i += 2
-          elif s[i] == "2" and i+1 < len(s):
-            if s[i+1] == "0":
-              i += 2
-            elif s[i+1] in "12":
-              ans += 1
-              i += 1
-            elif s[i+1] in "3456":
-              ans += 2
-              i += 2
-            elif s[i+1] in "789":
-              i += 2
-          else:
-            i += 1
-        return ans
+  def numDecodings(self, s): 
+    if len(s) == 0:
+      return 0
+    dp = [0] * (len(s) + 1)
+    dp[0] = 1
+
+    for i in range(1, len(s) + 1):
+      if s[i-1] in '123456789':
+        dp[i] += dp[i-1]
+      if i != 1 and 10 <= int(s[i-2:i]) and int(s[i-2:i]) <= 26:
+        dp[i] += dp[i-2]
+    return dp[-1]
 
 s = Solution()
 i = "12"
@@ -57,6 +40,16 @@ ans = s.numDecodings(i)
 print(ans == o, ans)
 
 i = "99"
+o = 1
+ans = s.numDecodings(i)
+print(ans == o, ans)
+
+i = "01"
+o = 0
+ans = s.numDecodings(i)
+print(ans == o, ans)
+
+i = "110"
 o = 1
 ans = s.numDecodings(i)
 print(ans == o, ans)
