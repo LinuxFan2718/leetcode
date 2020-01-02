@@ -10,23 +10,25 @@ class Solution:
     def numTrees(self, n: int) -> List[TreeNode]:
       if n == 0:
         return 0
-      return self.helper(1, n)
+      dp = {0: 1, 1: 2}
+      return self.helper(1, n, dp)
 
-    def helper(self, low, high) -> TreeNode:
-      if high - low < 0:
-        return 1
-      elif high - low == 0:
-        return 1
-      elif high - low == 1:
-        return 2
+    def helper(self, low, high, dp) -> TreeNode:
+      diff = high - low
+      if diff in dp.keys():
+        return dp[diff]
+      elif diff < 0:
+        dp[diff] = 1
+        return dp[diff]
       else:
         ans = 0
         for i in range(low, high+1):
-          numLefts = self.helper(low, i-1)
-          numRights = self.helper(i+1, high)
+          numLefts = self.helper(low, i-1, dp)
+          numRights = self.helper(i+1, high, dp)
           thisNum = numLefts * numRights
           ans += thisNum
-        return ans
+        dp[diff] = ans
+        return dp[diff]
       
 def checkTreesRough(h1, h2):
   return sorted([x.val for x in h1]) == sorted([x.val for x in h2])
