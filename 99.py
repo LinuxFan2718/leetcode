@@ -7,10 +7,26 @@ class TreeNode:
         self.right = None
 
 class Solution:
+    def inorder(self, root: TreeNode) -> List[int]:
+      return self.inorder(root.left) + [root] + self.inorder(root.right) if root else []
+
     def recoverTree(self, root: TreeNode) -> None:
         """
         Do not return anything, modify root in-place instead.
         """
+        inOrderList = self.inorder(root)
+        sortedinOrderList = sorted(inOrderList, key = lambda x: x.val )
+        if len(inOrderList) < 2:
+          return
+        wrongIndex = []
+        for i in range(len(inOrderList)):
+          if sortedinOrderList[i] != inOrderList[i]:
+            wrongIndex.append(i)
+        temp = inOrderList[wrongIndex[0]].val
+        inOrderList[wrongIndex[0]].val = inOrderList[wrongIndex[1]].val
+        inOrderList[wrongIndex[1]].val = temp
+
+        
         
 
 s = Solution()
