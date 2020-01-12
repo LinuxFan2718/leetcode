@@ -10,25 +10,17 @@ class Solution:
     def isSymmetric(self, root: TreeNode) -> bool:
         if not root:
             return True
-        row = [root]
-        while row:
-            for l in range(len(row)//2):
-                if all(node == None for node in row):
-                    return True
-                r = -l - 1
-                if row[l] == None and row[r] == None:
-                    pass
-                elif (row[l] == None and row[r] != None) or (row[l] != None and row[r] == None) or row[l].val != row[r].val:
-                    return False
-            newRow = []
-            for node in row:
-                if not node:
-                    newRow += [None, None]
-                else:
-                    newRow += [node.left, node.right]
+        return self.isSymmetricHelper(root.left, root.right)
 
-            row = newRow
-        return True
+    def isSymmetricHelper(self, left: TreeNode, right: TreeNode) -> bool:
+        if not left and not right:
+            return True
+        if left and right:
+            return (left.val == right.val
+                and self.isSymmetricHelper(left.left, right.right)
+                and self.isSymmetricHelper(right.left, left.right))
+        return False
+        
 
 def inorder(root: TreeNode) -> TreeNode:
     return inorder(root.left) + [root.val] + inorder(root.right) if root else []
