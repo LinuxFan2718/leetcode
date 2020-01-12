@@ -8,12 +8,26 @@ class TreeNode:
 
 class Solution:
     def isSymmetric(self, root: TreeNode) -> bool:
-        if root:
-            if not root.left and not root.right:
-                return True
-            if not root.left or not root.right:
-                return False
+        if not root:
+            return True
+        row = [root]
+        while row:
+            for l in range(len(row)//2):
+                if all(node == None for node in row):
+                    return True
+                r = -l - 1
+                if row[l] == None and row[r] == None:
+                    pass
+                elif (row[l] == None and row[r] != None) or (row[l] != None and row[r] == None) or row[l].val != row[r].val:
+                    return False
+            newRow = []
+            for node in row:
+                if not node:
+                    newRow += [None, None]
+                else:
+                    newRow += [node.left, node.right]
 
+            row = newRow
         return True
 
 def inorder(root: TreeNode) -> TreeNode:
@@ -45,6 +59,19 @@ h4.right.right = TreeNode(3)
 #    \   \
 #    3    3
 
+h5 = TreeNode(1)
+h5.left = TreeNode(2)
+h5.left.right = TreeNode(3)
+h5.right = TreeNode(2)
+h5.right.left = TreeNode(3)
+
+# [1,2,2,null,3,3]
+#     1
+#    /    \
+#   2      2
+#  /    \ / \
+# None  3 3  
+
 ans3 = s.isSymmetric(h3)
 o3 = True
 print(ans3 == o3)
@@ -52,3 +79,7 @@ print(ans3 == o3)
 ans4 = s.isSymmetric(h4)
 o4 = False
 print(ans4 == o4)
+
+ans5 = s.isSymmetric(h5)
+o5 = True
+print(ans5 == o5)
